@@ -1,18 +1,19 @@
 #!/usr/bin/python3
 
 from math import factorial
+
 """
 Returns a list of integers of Pascal's triangle
 """
 
 def pascal_triangle(n):
-	f = factorial
-	triangle = []
 	"""
 	Return list of integers
 	"""
+	f = factorial
+	triangle = []
 	if (n == 0):
-		return []
+		return triangle
 	else:
 		for i in range(n):
 			row = []
