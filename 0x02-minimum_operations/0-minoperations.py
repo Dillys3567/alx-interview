@@ -5,20 +5,20 @@ operations needed to result in exactly n H
 characters in the file given number n
 """
 
-def primeNumbersInRange(n):
+def primeFactors(n):
     """
-    Finds prime numbers between 1 and n
+    Finds prime factors
     """
-    primes = [2]
-    for i in range(1,n+1):
-        for j in range(2, i):
-            if (i % j == 0) and (j is not i):
-                break
-            elif i not in primes:
-                primes.append(i)
-    return(primes)
-
-
+    factors = []
+    divisor = 2
+    while n > 1:
+        if n % divisor == 0:
+            factors.append(divisor)
+            n //= divisor
+        else:
+            divisor += 1
+    return factors
+ 
 
 
 def minOperations(n):
@@ -27,7 +27,8 @@ def minOperations(n):
     operations needed to result in exactly n H 
     characters in the file
     """
-    primes = primeNumbersInRange(n)
-
-
-    print()
+    if (n < 0):
+        return 0
+    factors = primeFactors(n)
+    return sum(factors)
+    
