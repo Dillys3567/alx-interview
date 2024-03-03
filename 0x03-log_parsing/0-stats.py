@@ -1,7 +1,6 @@
 #!/usr/bin/python3
-import sys
 """Script to read from stdin line by line and computer metrics"""
-
+import sys
 
 def printMetrics(dic, size):
     """Print information"""
