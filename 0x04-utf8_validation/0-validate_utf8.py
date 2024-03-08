@@ -5,36 +5,26 @@ Script to check for valid UTF-8 encodeing
 
 def validUTF8(data):
     """Return true if data is valid UTF-8 encoding, else return False"""
-    new_data = [convertToBinary(x) for x in data]
-    #n = len(new_data)
-    if new_data[0][0] == '0':
-        return True
-    else:
-        n = check(new_data[0])
-        length = len(new_data)
-        if n != (length - 1):
-            return False
-        for i in range(1,length -1):
-            x = check(new_data[i])
-            if x != 1:
-                return False
-    return True
-    
-def check(num):
     i = 0
-    mask = 10000000
-    num = int(num)
-    while mask & num:
-        mask >>=1
-        i+=1
+    while i < len(data):
+        n = checkMSBs(data[i])
+        k = i + n - (n != 0)
+        i += 1
+        if n == 1 or n > 4 or k >= len(data):
+            return False
+        while i < len(data) and i <= k:
+            otherMSBs = checkMSBs(data[i])
+            if otherMSBs != 1: return False
+            i += 1
+        return True
+
+
+
+def checkMSBs(num):
+    """Check number of leading 1s"""
+    mask = 1 << (7)
+    i = 0
+    while num & mask:
+        mask >>= 1
+        i += 1
     return i
-
-    
-
-
-
-
-def convertToBinary(number):
-    """Convert a number to binary and retain only 8 LSB"""
-    return (format(number,'08b'))
-
