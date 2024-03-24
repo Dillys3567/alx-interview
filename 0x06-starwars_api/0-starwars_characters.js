@@ -1,28 +1,23 @@
 #!/usr/bin/node
 
-//get module
 const request = require("request");
 
-//get command line argument
 const movieId = process.argv[2];
 
-let baseUrl = "https://swapi-api.alx-tools.com/api/";
-let filmUrl = baseUrl + "films/" + movieId;
+const url = `https://swapi-api.hbtn.io/api/films/${movieId}`;
 
-request(filmUrl, (error, _response, body) => {
-  //log error
-  if (error) console.log(error.message);
-  //parse to json
-  info = JSON.parse(body);
-  charUrls = info["characters"];
+request(url, async (err, res, body) => {
+  err && console.log(err);
 
-  for (let index in charUrls) {
-    request(charUrls[index], (error, _response, body) => {
-      //log error
-      if (error) console.log(error.message);
-      //parse json
-      personInfo = JSON.parse(body);
-      console.log(personInfo["name"]);
+  const charactersArray = JSON.parse(body).characters;
+  for (const character of charactersArray) {
+    await new Promise((resolve, reject) => {
+      request(character, (err, res, body) => {
+        err && console.log(err);
+
+        console.log(JSON.parse(body).name);
+        resolve();
+      });
     });
   }
 });
